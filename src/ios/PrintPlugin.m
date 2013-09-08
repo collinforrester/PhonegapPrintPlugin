@@ -34,27 +34,12 @@
 
 - (void) print:(CDVInvokedUrlCommand*)command{
     NSUInteger argc = [command.arguments count];
-
+    NSLog(@"Array contents: %@", command.arguments);
     if (argc < 1) {
         return;
     }
     self.printHTML = [command.arguments objectAtIndex:0];
 
-    if (argc >= 2){
-        self.successCallback = [command.arguments objectAtIndex:1];
-    }
-
-    if (argc >= 3){
-        self.failCallback = [command.arguments objectAtIndex:2];
-    }
-
-    if (argc >= 4){
-        self.dialogLeftPos = [[command.arguments objectAtIndex:3] intValue];
-    }
-
-    if (argc >= 5){
-        self.dialogTopPos = [[command.arguments objectAtIndex:4] intValue];
-    }
     if (![self isPrintServiceAvailable]){
         [self callbackWithFuntion:self.failCallback withData: @"{success: false, available: false}"];
 
@@ -71,6 +56,9 @@
         //Set the priner settings
         UIPrintInfo *printInfo = [UIPrintInfo printInfo];
         printInfo.outputType = UIPrintInfoOutputGeneral;
+        if(argc >= 2 && (BOOL)[command.arguments objectAtIndex:1]) {
+            printInfo.orientation = UIPrintInfoOrientationLandscape;
+        }
         controller.printInfo = printInfo;
         controller.showsPageRange = YES;
 
@@ -85,6 +73,12 @@
 
         //Get formatter for web (note: margin not required - done in web page)
         UIViewPrintFormatter *viewFormatter = [webViewPrint viewPrintFormatter];
+        if(argc >= 3) {
+            viewFormatter.maximumContentWidth = [[command.arguments objectAtIndex:2] intValue];
+        }
+        if(argc >= 4) {
+            viewFormatter.maximumContentHeight = [[command.arguments objectAtIndex:3] intValue];
+        }
         controller.printFormatter = viewFormatter;
         controller.showsPageRange = YES;
 

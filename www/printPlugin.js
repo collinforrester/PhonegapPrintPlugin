@@ -13,7 +13,7 @@ navigator.printer.callbackMap = {};
  fail       - callback function called if print unsuccessful.  If print fails, {error: reason}. If printing not available: {available: false}
  options    -  {dialogOffset:{left: 0, right: 0}}. Position of popup dialog (iPad only).
  */
-var print = function(printHTML, success, fail, options) {
+var print = function(printHTML, options, success, fail) {
     if (typeof printHTML != 'string'){
         console.log("Print function requires an HTML string. Not an object");
         return;
@@ -21,6 +21,9 @@ var print = function(printHTML, success, fail, options) {
 
     var dialogLeftPos = 0;
     var dialogTopPos = 0;
+    var isLandscape = false;
+    var args = [];
+    args.push(printHTML);
 
 
     if (options){
@@ -38,6 +41,16 @@ var print = function(printHTML, success, fail, options) {
                 }
             }
         }
+        if(options.landscape) {
+            isLandscape = true;
+            args.push(isLandscape);
+        }
+        if(options.maximumContentWidth) {
+            args.push(options.maximumContentWidth);
+        }
+        if(options.maximumContentHeight) {
+            args.push(options.maximumContentHeight);
+        }
     }
 
     var key = 'print' + this.callbackIdx++;
@@ -53,7 +66,7 @@ var print = function(printHTML, success, fail, options) {
     };
 
     var callbackPrefix = 'navigator.printer.callbackMap.' + key;
-    cordova.exec(success, fail, "PrintPlugin", "print", [printHTML]);
+    cordova.exec(success, fail, "PrintPlugin", "print", args);
 };
 
 /*
