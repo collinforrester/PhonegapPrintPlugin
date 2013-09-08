@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="com.phonegap.plugin.print"
+    version="0.0.1">
+    <name>Print</name>
+    <description>Cordova Print Plugin</description>
+    <license>MIT</license>
+    <keywords>cordova,print</keywords>
+    <engines>
+        <engine name="cordova" version="3.0.6" />
+    </engines>
+
+    <js-module src="www/printPlugin.js" name="printPlugin">
+        <clobbers target="navigator.printer" />
+    </js-module>
+
+     <!-- ios -->
+     <platform name="ios">
+         <config-file target="config.xml" parent="/*">
+             <feature name="PringPlugin">
+                 <param name="ios-package" value="PrintPlugin" />
+             </feature>
+         </config-file>
+
+         <header-file src="src/ios/PrintPlugin.h" />
+         <source-file src="src/ios/PrintPlugin.m" />
+     </platform>
+
+</plugin>
