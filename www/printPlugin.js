@@ -4,6 +4,8 @@
  * MIT licensed
  */
 
+navigator.printer = {};
+navigator.printer.callbackMap = {};
 
 /*
  print      - html string or DOM node (if latter, innerHTML is used to get the contents). REQUIRED.
@@ -39,18 +41,18 @@ var print = function(printHTML, success, fail, options) {
     }
 
     var key = 'print' + this.callbackIdx++;
-    window.plugins.printPlugin.callbackMap[key] = {
+    navigator.printer.callbackMap[key] = {
         success: function(result) {
-            delete window.plugins.printPlugin.callbackMap[key];
+            delete navigator.printer.callbackMap[key];
             success(result);
         },
         fail: function(result) {
-            delete window.plugins.printPlugin.callbackMap[key];
+            delete navigator.printer.callbackMap[key];
             fail(result);
         },
     };
 
-    var callbackPrefix = 'window.plugins.printPlugin.callbackMap.' + key;
+    var callbackPrefix = 'navigator.printer.callbackMap.' + key;
     cordova.exec(success, fail, "PrintPlugin", "print", [printHTML]);
 };
 
@@ -59,16 +61,15 @@ var print = function(printHTML, success, fail, options) {
  */
 var isPrintingAvailable = function(callback) {
     var key = 'isPrintingAvailable' + this.callbackIdx++;
-    window.plugins.printPlugin.callbackMap[key] = function(result) {
-        delete window.plugins.printPlugin.callbackMap[key];
+    navigator.printer.callbackMap[key] = function(result) {
+        delete navigator.printer.callbackMap[key];
         callback(result);
     };
 
-    var callbackName = 'window.plugins.printPlugin.callbackMap.' + key;
+    var callbackName = 'navigator.printer.callbackMap.' + key;
     cordova.exec(callback, callback, "PrintPlugin", "isPrintingAvailable");
 };
 
-navigator.printer = {};
 navigator.printer.print = print;
 navigator.printer.isPrintingAvailable = isPrintingAvailable;
 
