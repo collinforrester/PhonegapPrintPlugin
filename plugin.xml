@@ -19,7 +19,7 @@
      <!-- ios -->
      <platform name="ios">
          <config-file target="config.xml" parent="/*">
-             <feature name="PringPlugin">
+             <feature name="PrintPlugin">
                  <param name="ios-package" value="PrintPlugin" />
              </feature>
          </config-file>

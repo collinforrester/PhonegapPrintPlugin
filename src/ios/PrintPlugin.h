@@ -9,11 +9,8 @@
 
 #import <Foundation/Foundation.h>
 
-#ifdef CORDOVA_FRAMEWORK
+
 #import <Cordova/CDVPlugin.h>
-#else
-#import "CDVPlugin.h"
-#endif
 
 
 @interface PrintPlugin : CDVPlugin {
@@ -34,10 +31,7 @@
 @property NSInteger dialogLeftPos;
 @property NSInteger dialogTopPos;
 
-//Print HTML
-- (void) print:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
-
-//Find out whether printing is supported on this platform.
-- (void) isPrintingAvailable:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void)isPrintingAvailable: (CDVInvokedUrlCommand*)command;
+- (void)print:(CDVInvokedUrlCommand*)command;
 
 @end

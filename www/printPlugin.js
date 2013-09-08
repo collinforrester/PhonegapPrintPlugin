@@ -71,3 +71,5 @@ var isPrintingAvailable = function(callback) {
 navigator.printer = {};
 navigator.printer.print = print;
 navigator.printer.isPrintingAvailable = isPrintingAvailable;
+
+module.exports = navigator.printer;
