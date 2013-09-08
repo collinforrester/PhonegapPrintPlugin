@@ -9,7 +9,7 @@
     <license>MIT</license>
     <keywords>cordova,print</keywords>
     <engines>
-        <engine name="cordova" version="3.0.6" />
+        <engine name="cordova" version="3.0.0" />
     </engines>
 
     <js-module src="www/printPlugin.js" name="printPlugin">
